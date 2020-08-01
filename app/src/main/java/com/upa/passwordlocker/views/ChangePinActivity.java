@@ -1,7 +1,6 @@
 package com.upa.passwordlocker.views;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +16,11 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.upa.passwordlocker.R;
+import com.upa.passwordlocker.utils.CommonUtils;
 import com.upa.passwordlocker.utils.EncryptionHelper;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class ChangePinActivity extends Activity implements OnClickListener{
 
@@ -27,7 +30,7 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 	private static final String pass = "password";
 	private boolean isDone, isBackPress;
 
-	TextInputEditText oldPin, newPin, renewPin;
+	TextInputEditText oldPin, newPin, reenterdPin;
 	MaterialButton changePin;
 
 	@Override
@@ -40,7 +43,7 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 
 		oldPin = findViewById(R.id.oldPin);
 		newPin = findViewById(R.id.newPin);
-		renewPin = findViewById(R.id.reenterNewPin);
+		reenterdPin = findViewById(R.id.reenterNewPin);
 
 		changePin = findViewById(R.id.change);
 		changePin.setOnClickListener(this);
@@ -93,7 +96,7 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 
 			String currentPinInput = oldPin.getText().toString();
 			String changePinInput = newPin.getText().toString();
-			String reChangedPinInput = renewPin.getText().toString();
+			String reChangedPinInput = reenterdPin.getText().toString();
 
 			SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 			String currentPin = settings.getString("password", null);
@@ -103,7 +106,7 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 			try {
 				matched = EncryptionHelper.validatePassword(currentPinInput, currentPin);
 			}
-			catch (Exception e) {
+			catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				Log.e(TAG, "Error validating password", e.getCause());
 			}
 
@@ -138,19 +141,6 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 		}
 	}
 
-
-	private boolean customStartActivity(Intent aIntent) {
-		try {
-			startActivity(aIntent);
-			return true;
-		}
-		catch (ActivityNotFoundException e) {
-			return false;
-		}
-	}
-
-
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -179,15 +169,15 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 
-				//Try Google play
-				intent.setData(Uri.parse("market://details?id="+ ChangePinActivity.this.getPackageName()));
-				if (!customStartActivity(intent)) {
+				// Try Google play
+				intent.setData(Uri.parse("market://details?id=" + ChangePinActivity.this.getPackageName()));
+				if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
-					//Market (Google play) app seems not installed, let's try to open a webbrowser
-					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ChangePinActivity.this.getPackageName()));
-					if (!customStartActivity(intent)) {
+					// Market (Google play) app seems not installed, let's try to open a webbrowser
+					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + ChangePinActivity.this.getPackageName()));
+					if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
-						//Well if this also fails, we have run out of options, inform the user.
+						// Well if this also fails, we have run out of options, inform the user.
 						Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
 					}
 				}

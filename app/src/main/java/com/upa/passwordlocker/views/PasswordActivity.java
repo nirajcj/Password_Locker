@@ -44,16 +44,14 @@ public class PasswordActivity extends Activity implements OnClickListener {
 
 	private ToneGenerator mp;
 
-	private FileUtils fileUtils =new FileUtils(this);
-
 	MaterialButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13;
 	MaterialTextView pinInput;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		fileUtils.writeToFile("go", "waitstate");
-		fileUtils.writeToFile("123", "timestamp");
+		FileUtils.writeToFile(getApplicationContext(), "go", "waitstate");
+		FileUtils.writeToFile(getApplicationContext(), "123", "timestamp");
 
 		Typeface heading = Typeface.createFromAsset(getAssets(), "fonts/yoyo.otf");
 		Typeface all_ages = Typeface.createFromAsset(getAssets(), "fonts/babylove.ttf");
@@ -196,20 +194,21 @@ public class PasswordActivity extends Activity implements OnClickListener {
 
 				try {
 
-					String waitState= fileUtils.readFromFile("waitstate");
+					String waitState= FileUtils.readFromFile(getApplicationContext(), "waitstate");
 					java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm:ss");
 					Time now = new Time();
 					if(waitState.equalsIgnoreCase("wait")) {
 
 						now.setToNow();
 
-						Date d1 = df.parse(fileUtils.readFromFile("timestamp"));
+						Date d1 = df.parse(FileUtils.readFromFile(getApplicationContext(), "timestamp"));
 						Date d2 = df.parse(now.format("%H:%M:%S"));
 
 						if(((d2.getTime()-d1.getTime()) / 1000) > 30) {
 
-							fileUtils.writeToFile("0", "timestamp");
-							fileUtils.writeToFile("go", "waitstate");
+							FileUtils.writeToFile(getApplicationContext(), "0", "timestamp");
+							FileUtils.writeToFile(getApplicationContext(), "go", "waitstate");
+
 							attempts=0;
 
 							if(EncryptionHelper.validatePassword(s, storedPass)) {
@@ -264,8 +263,8 @@ public class PasswordActivity extends Activity implements OnClickListener {
 
 								now.setToNow();
 
-								fileUtils.writeToFile("wait", "waitstate");
-								fileUtils.writeToFile(now.format("%H:%M:%S"), "timestamp");
+								FileUtils.writeToFile(getApplicationContext(), "wait", "waitstate");
+								FileUtils.writeToFile(getApplicationContext(), now.format("%H:%M:%S"), "timestamp");
 
 								Toast.makeText(PasswordActivity.this,"Three wrong attempts !!\nWait for 30 secs then try again", Toast.LENGTH_LONG).show();
 							}

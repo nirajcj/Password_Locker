@@ -1,7 +1,6 @@
 package com.upa.passwordlocker.views;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.upa.passwordlocker.R;
+import com.upa.passwordlocker.utils.CommonUtils;
 
 public class AboutActivity extends Activity {
 
@@ -72,16 +72,6 @@ public class AboutActivity extends Activity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	private boolean customStartActivity(Intent aIntent) {
-		try {
-			startActivity(aIntent);
-			return true;
-		}
-		catch (ActivityNotFoundException e) {
-			return false;
-		}
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -112,11 +102,11 @@ public class AboutActivity extends Activity {
 
 				//Try Google play
 				intent.setData(Uri.parse("market://details?id="+ AboutActivity.this.getPackageName()));
-				if (!customStartActivity(intent)) {
+				if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
 					//Market (Google play) app seems not installed, let's try to open a webbrowser
 					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ AboutActivity.this.getPackageName()));
-					if (!customStartActivity(intent)) {
+					if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
 						//Well if this also fails, we have run out of options, inform the user.
 						Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();

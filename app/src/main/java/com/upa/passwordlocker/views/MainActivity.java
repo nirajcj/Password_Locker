@@ -2,7 +2,6 @@ package com.upa.passwordlocker.views;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.upa.passwordlocker.R;
 import com.upa.passwordlocker.utils.AESHelper;
+import com.upa.passwordlocker.utils.CommonUtils;
 import com.upa.passwordlocker.utils.CustomDbHelper;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -98,13 +98,13 @@ public class MainActivity extends Activity implements OnClickListener {
 			String password = passwordTextInput.getText().toString();
 			String website = websiteTextInput.getText().toString();
 
-			if (containsWhiteSpace(website)) {
+			if (CommonUtils.hasWhiteSpace(website)) {
 				Toast.makeText(MainActivity.this, "Website field cannot have spaces", Toast.LENGTH_SHORT).show();
 			}
-			else if (containsWhiteSpace(username)) {
+			else if (CommonUtils.hasWhiteSpace(username)) {
 				Toast.makeText(MainActivity.this, "Username field cannot have spaces", Toast.LENGTH_SHORT).show();
 			}
-			else if (containsWhiteSpace(password)) {
+			else if (CommonUtils.hasWhiteSpace(password)) {
 				Toast.makeText(MainActivity.this, "Password field cannot have spaces", Toast.LENGTH_SHORT).show();
 			}
 			else if (website.equalsIgnoreCase("")) {
@@ -158,31 +158,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private boolean containsWhiteSpace(final String testCode) {
-
-		if(testCode == null) {
-			return false;
-		}
-
-		for(int i = 0; i < testCode.length(); i++) {
-			if(Character.isWhitespace(testCode.charAt(i))){
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private boolean customStartActivity(Intent aIntent) {
-		try {
-			startActivity(aIntent);
-			return true;
-		}
-		catch (ActivityNotFoundException e) {
-			return false;
-		}
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -217,11 +192,11 @@ public class MainActivity extends Activity implements OnClickListener {
 				//Try Google play
 				intent.setData(Uri.parse("market://details?id="+ MainActivity.this.getPackageName()));
 
-				if (!customStartActivity(intent)) {
+				if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
 					//Market (Google play) app seems not installed, let's try to open a webbrowser
 					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+MainActivity.this.getPackageName()));
-					if (!customStartActivity(intent)) {
+					if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
 						//Well if this also fails, we have run out of options, inform the user.
 						Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();

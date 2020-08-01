@@ -1,28 +1,27 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-<item 
-    	android:title=""
-        android:id="@+id/more"
-        android:showAsAction="always"
-        android:icon="@drawable/ic_action_overflow">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+		android:title=""
+		android:id="@+id/more"
+		android:icon="@drawable/ic_action_overflow"
+		app:showAsAction="ifRoom">
 		<menu >
-		    <item android:id="@+id/addEntry"
-		        android:title="Add Entry"
-		        android:icon="@drawable/add_1_icon"
-		        android:showAsAction="never" />		
-		    
-		    <item android:id="@+id/changePin"
-		        android:title="Change PIN"
-		        android:icon="@drawable/modify_key"
-		        android:showAsAction="never" />
-		    
-		    <item android:id="@+id/about"
-		        android:title="About"
-		        android:icon="@drawable/actions_help_about_icon"
-		        android:showAsAction="never" />  
-		    <item android:id="@+id/rate"
-		        android:icon="@drawable/action_rate"
-		        android:title="Rate"
-		        android:showAsAction="never" />  
+			<item android:id="@+id/addEntry"
+				android:title="@string/add_entry_string"
+				android:icon="@drawable/add_1_icon"
+				app:showAsAction="never" />
+			<item android:id="@+id/changePin"
+				android:title="@string/change_pin_string"
+				android:icon="@drawable/modify_key"
+				app:showAsAction="never" />
+			<item android:id="@+id/about"
+				android:title="@string/about_string"
+				android:icon="@drawable/actions_help_about_icon"
+				app:showAsAction="never" />
+			<item android:id="@+id/rate"
+				android:icon="@drawable/action_rate"
+				android:title="@string/rate_string"
+				app:showAsAction="never" />
 		</menu>
-</item>
+	</item>
 </menu>

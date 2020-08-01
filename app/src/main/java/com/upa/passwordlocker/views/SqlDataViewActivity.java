@@ -1,19 +1,9 @@
 package com.upa.passwordlocker.views;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textview.MaterialTextView;
-import com.upa.passwordlocker.models.Group;
-import com.upa.passwordlocker.R;
-import com.upa.passwordlocker.adapter.MyExpandableListAdapter;
-import com.upa.passwordlocker.utils.CustomDbHelper;
-import com.upa.passwordlocker.utils.AESHelper;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.SQLException;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +19,15 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
+import com.upa.passwordlocker.R;
+import com.upa.passwordlocker.adapter.MyExpandableListAdapter;
+import com.upa.passwordlocker.models.Group;
+import com.upa.passwordlocker.utils.AESHelper;
+import com.upa.passwordlocker.utils.CommonUtils;
+import com.upa.passwordlocker.utils.CustomDbHelper;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -172,13 +171,13 @@ public class SqlDataViewActivity extends Activity {
 							s2= usernameTextInput.getText().toString();
 							s3= passwordTextInput.getText().toString();
 
-							if(containsWhiteSpace(s1)) {
+							if(CommonUtils.hasWhiteSpace(s1)) {
 								Toast.makeText(SqlDataViewActivity.this, "Website field cannot have spaces", Toast.LENGTH_SHORT).show();
 							}
-							else if(containsWhiteSpace(s2)) {
+							else if(CommonUtils.hasWhiteSpace(s2)) {
 								Toast.makeText(SqlDataViewActivity.this, "Username field cannot have spaces", Toast.LENGTH_SHORT).show();
 							}
-							else if(containsWhiteSpace(s3)) {
+							else if(CommonUtils.hasWhiteSpace(s3)) {
 								Toast.makeText(SqlDataViewActivity.this, "Password field cannot have spaces", Toast.LENGTH_SHORT).show();
 							}
 							else if(s1.equalsIgnoreCase("")) {
@@ -277,39 +276,11 @@ public class SqlDataViewActivity extends Activity {
 		}
 	}
 
-
-	private boolean customStartActivity(Intent aIntent) {
-		try {
-			startActivity(aIntent);
-			return true;
-		}
-		catch (ActivityNotFoundException e) {
-			return false;
-		}
-	}
-
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
-	}
-
-	public static boolean containsWhiteSpace(final String testCode) {
-
-		if(testCode == null) {
-			return false;
-		}
-
-		for(int i = 0; i < testCode.length(); i++){
-			if(Character.isWhitespace(testCode.charAt(i))){
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	@Override
@@ -342,11 +313,11 @@ public class SqlDataViewActivity extends Activity {
 
 				// Try Google play
 				intent.setData(Uri.parse("market://details?id="+ SqlDataViewActivity.this.getPackageName()));
-				if (!customStartActivity(intent)) {
+				if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
 					// Market (Google play) app seems not installed, let's try to open a web browser
 					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ SqlDataViewActivity.this.getPackageName()));
-					if (!customStartActivity(intent)) {
+					if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
 
 						// Well if this also fails, we have run out of options, inform the user.
 						Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();

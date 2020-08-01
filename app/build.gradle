@@ -25,4 +25,5 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/android-libcore-4.3_r2.robolectric-0-real.jar')
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'org.jetbrains:annotations-java5:15.0'
 }

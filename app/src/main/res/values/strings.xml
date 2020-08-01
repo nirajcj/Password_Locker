@@ -41,5 +41,9 @@
     <string name="question_5_string">What is your birth place?</string>
     <string name="about_us_string">Are you fretted over forgetting your access data for various websites, applications, etc?</string>
     <string name="creation_success_string">Entry Created Successfully</string>
+    <string name="add_entry_string">Add Entry</string>
+    <string name="change_pin_string">Change PIN</string>
+    <string name="about_string">About</string>
+    <string name="rate_string">Rate</string>
 
 </resources>
