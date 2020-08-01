@@ -34,10 +34,8 @@ public class CustomDbHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("CREATE TABLE "+ TABLE_NAME +" ( "+
-					KEY_ROW_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-					KEY_WEBSITE+" TEXT NOT NULL, "+KEY_USERNAME+" TEXT NOT NULL, "+KEY_PASSWORD+
-					" TEXT NOT NULL);"
+			db.execSQL("CREATE TABLE "+ TABLE_NAME + " ( " + KEY_ROW_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE
+					+ " TEXT NOT NULL, " + KEY_USERNAME+" TEXT NOT NULL, " + KEY_PASSWORD + " TEXT NOT NULL);"
 			);
 
 		}
@@ -47,7 +45,7 @@ public class CustomDbHelper {
 
 			if(oldVersion == 1) {
 
-				String[] columns = new String[]{KEY_ROW_ID,KEY_WEBSITE,KEY_USERNAME,KEY_PASSWORD};
+				String[] columns = new String[] { KEY_ROW_ID, KEY_WEBSITE, KEY_USERNAME, KEY_PASSWORD };
 
 				Cursor c = db.query(TABLE_NAME, columns, null, null, null, null, null);
 
@@ -64,11 +62,10 @@ public class CustomDbHelper {
 				c.close();
 
 				String[] arr = data.toString().split(" ");
+
 				db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-				db.execSQL("CREATE TABLE "+ TABLE_NAME +" ( "+
-						KEY_ROW_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-						KEY_WEBSITE+" TEXT NOT NULL, "+KEY_USERNAME+" TEXT NOT NULL, "+KEY_PASSWORD+
-						" TEXT NOT NULL);"
+				db.execSQL("CREATE TABLE "+ TABLE_NAME +" ( "+ KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE +
+						" TEXT NOT NULL, " + KEY_USERNAME + " TEXT NOT NULL, " + KEY_PASSWORD + " TEXT NOT NULL);"
 				);
 
 				for (int j = 0; j < arr.length; j = j + 3) {
@@ -119,7 +116,7 @@ public class CustomDbHelper {
 
 	public void deleteEntry(int pos) {
 
-		String whereClause = KEY_ROW_ID +"=?";
+		String whereClause = KEY_ROW_ID + "=?";
 		String[] whereArgs = new String[] {String.valueOf(pos)};
 
 		ourDatabase.beginTransaction();
@@ -151,7 +148,7 @@ public class CustomDbHelper {
 
 	public void refreshTable() {
 
-		String[] columns = new String[]{KEY_ROW_ID,KEY_WEBSITE,KEY_USERNAME,KEY_PASSWORD};
+		String[] columns = new String[] { KEY_ROW_ID, KEY_WEBSITE, KEY_USERNAME, KEY_PASSWORD };
 
 		Cursor c = ourDatabase.query(TABLE_NAME, columns, null, null, null, null, null);
 
@@ -169,10 +166,8 @@ public class CustomDbHelper {
 		String[] arr = data.toString().split(" ");
 
 		ourDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-		ourDatabase.execSQL("CREATE TABLE "+ TABLE_NAME +" ( "+
-				KEY_ROW_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-				KEY_WEBSITE+" TEXT NOT NULL, "+KEY_USERNAME+" TEXT NOT NULL, "+KEY_PASSWORD+
-				" TEXT NOT NULL);"
+		ourDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE
+				+ " TEXT NOT NULL, " + KEY_USERNAME + " TEXT NOT NULL, " + KEY_PASSWORD + " TEXT NOT NULL);"
 		);
 
 		for (int j = 0; j < arr.length; j=j+3) {
@@ -182,7 +177,7 @@ public class CustomDbHelper {
 
 	public String getData() {
 
-		String[] columns = new String[]{KEY_ROW_ID,KEY_WEBSITE,KEY_USERNAME,KEY_PASSWORD};
+		String[] columns = new String[] { KEY_ROW_ID, KEY_WEBSITE, KEY_USERNAME, KEY_PASSWORD };
 
 		Cursor c = ourDatabase.query(TABLE_NAME, columns, null, null, null, null, null);
 

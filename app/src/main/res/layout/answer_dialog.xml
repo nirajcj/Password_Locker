@@ -10,4 +10,5 @@
         android:ems="10"
         android:hint="@string/answer_string"
         android:layout_marginStart="20dp" />
+
 </TableLayout>

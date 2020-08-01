@@ -41,6 +41,7 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 			if(!prefs.getBoolean("version", false)) {
 
 				PackageInfo packageInfo;
+
 				try {
 
 					packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -50,7 +51,8 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 					editor.putBoolean("version", true);
 					editor.putString("version", versionName);
 					editor.apply();
-				} catch (Exception e) {}
+				}
+				catch (Exception e) {}
 			}
 
 			SharedPreferences.Editor editor = prefs.edit();
@@ -72,7 +74,8 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 				editor.putString("question", answer_hashed);
 				editor.commit();
 
-			} catch (Exception e) {}
+			}
+			catch (Exception e) {}
 		}
 
 		requestPass();
@@ -86,20 +89,21 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 
 		toneGenerator = new ToneGenerator(AudioManager.STREAM_DTMF,70);
 
-		button1=(MaterialButton) findViewById(R.id.button1);
-		button2=(MaterialButton) findViewById(R.id.button2);
-		button3=(MaterialButton) findViewById(R.id.button3);
-		button4=(MaterialButton) findViewById(R.id.button4);
-		button5=(MaterialButton) findViewById(R.id.button5);
-		button6=(MaterialButton) findViewById(R.id.button6);
-		button7=(MaterialButton) findViewById(R.id.button7);
-		button8=(MaterialButton) findViewById(R.id.button8);
-		button9=(MaterialButton) findViewById(R.id.button9);
-		button10=(MaterialButton) findViewById(R.id.button10);
-		button11=(MaterialButton) findViewById(R.id.button11);
-		button12=(MaterialButton) findViewById(R.id.button12);
+		button1 = findViewById(R.id.button1);
+		button2 = findViewById(R.id.button2);
+		button3 = findViewById(R.id.button3);
+		button4 = findViewById(R.id.button4);
+		button5 = findViewById(R.id.button5);
+		button6 = findViewById(R.id.button6);
+		button7 = findViewById(R.id.button7);
+		button8 = findViewById(R.id.button8);
+		button9 = findViewById(R.id.button9);
+		button10 = findViewById(R.id.button10);
+		button11 = findViewById(R.id.button11);
+		button12 = findViewById(R.id.button12);
 
-		textView =(MaterialTextView) findViewById(R.id.textView2);
+		textView = findViewById(R.id.textView2);
+
 		button1.setOnClickListener(this);
 		button2.setOnClickListener(this);
 		button3.setOnClickListener(this);
@@ -113,20 +117,28 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 		button11.setOnClickListener(this);
 		button12.setOnClickListener(this);
 
-		MaterialTextView myTextView = (MaterialTextView)findViewById(R.id.textView1);
+		MaterialTextView myTextView = findViewById(R.id.textView1);
 		myTextView.setTypeface(heading);
 
-		button1.setTypeface(allages);button2.setTypeface(allages);button3.setTypeface(allages);button4.setTypeface(allages);
-		button8.setTypeface(allages);button11.setTypeface(allages);button10.setTypeface(allages);button5.setTypeface(allages);
-		button7.setTypeface(allages);button12.setTypeface(allages);button9.setTypeface(allages);button6.setTypeface(allages);
+		button1.setTypeface(allages);
+		button2.setTypeface(allages);
+		button3.setTypeface(allages);
+		button4.setTypeface(allages);
+		button5.setTypeface(allages);
+		button6.setTypeface(allages);
+		button7.setTypeface(allages);
+		button8.setTypeface(allages);
+		button9.setTypeface(allages);
+		button11.setTypeface(allages);
+		button10.setTypeface(allages);
+		button12.setTypeface(allages);
 	}
 
 	private void requestPass() {
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME1, MODE_PRIVATE);
 
-		if(settings.getBoolean(pass, true))
-		{
+		if(settings.getBoolean(pass, true)) {
 			settings.edit().putBoolean(pass, false).apply();
 			return;
 		}
@@ -151,6 +163,7 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
+
 		switch(v.getId()) {
 
 			case R.id.button1:
@@ -183,7 +196,6 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 				textView.setText(s);
 				break;
 			case R.id.button6:
-
 				toneGenerator.startTone(ToneGenerator.TONE_DTMF_1, 120);
 				s += "6";
 				textView.setText(s);
@@ -236,9 +248,7 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 					editor.putString(pass, s_hashed);
 					editor.apply();
 				}
-				catch(Exception e) {
-
-				}
+				catch(Exception e) {}
 
 				requestPass2();
 

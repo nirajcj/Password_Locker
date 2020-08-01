@@ -35,12 +35,11 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 
 		isDone = false;
 
-		oldPin = (TextInputEditText)findViewById(R.id.oldPin);
-		newPin = (TextInputEditText)findViewById(R.id.newPin);
-		renewPin = (TextInputEditText)findViewById(R.id.reenterNewPin);
+		oldPin = findViewById(R.id.oldPin);
+		newPin = findViewById(R.id.newPin);
+		renewPin = findViewById(R.id.reenterNewPin);
 
-		changePin = (MaterialButton) findViewById(R.id.change);
-
+		changePin = findViewById(R.id.change);
 		changePin.setOnClickListener(this);
 	}
 
@@ -87,49 +86,48 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 
-		switch(v.getId()){
+		if (v.getId() == R.id.change) {
 
-			case R.id.change:
+			String currentPinInput = oldPin.getText().toString();
+			String changePinInput = newPin.getText().toString();
+			String reChangedPinInput = renewPin.getText().toString();
 
-				String currentPinInput = oldPin.getText().toString();
-				String changePinInput = newPin.getText().toString();
-				String reChangedPinInput = renewPin.getText().toString();
+			SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+			String currentPin = settings.getString("password", null);
 
-				SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-				String currentPin = settings.getString("password", null);
+			boolean matched = false;
 
-				boolean matched=false;
+			try {
+				matched = EncryptionHelper.validatePassword(currentPinInput, currentPin);
+			}
+			catch (Exception e) {}
 
-				try{
-					matched= EncryptionHelper.validatePassword(currentPinInput, currentPin);
-				}
-				catch(Exception e){}
-				if(matched)
-				{
-					if(changePinInput.equalsIgnoreCase(reChangedPinInput))
-					{
-						String hashedNewPin = "";
-						try{
-							hashedNewPin= EncryptionHelper.generateStrongPasswordHash(changePinInput);
-						}
-						catch(Exception e){
+			if (matched) {
 
-						}
+				if (changePinInput.equalsIgnoreCase(reChangedPinInput)) {
 
-						SharedPreferences.Editor editor;
-						settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-						editor = settings.edit();
-						editor.putString(pass, hashedNewPin);
-						editor.apply();
-						Toast.makeText(this,"PIN Changed Successfully", Toast.LENGTH_SHORT).show();
+					String hashedNewPin = "";
+					try {
+						hashedNewPin = EncryptionHelper.generateStrongPasswordHash(changePinInput);
 					}
-					else
-					{
-						Toast.makeText(this,"New Pin doesn't Match", Toast.LENGTH_SHORT).show();
-					}
+					catch (Exception e) {}
+
+					SharedPreferences.Editor editor;
+					settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+					editor = settings.edit();
+					editor.putString(pass, hashedNewPin);
+					editor.apply();
+
+					Toast.makeText(this, "PIN Changed Successfully", Toast.LENGTH_SHORT).show();
 				}
-				else{Toast.makeText(this,"Wrong Old Pin", Toast.LENGTH_SHORT).show();}
-				break;
+				else {
+					Toast.makeText(this, "New Pin doesn't Match", Toast.LENGTH_SHORT).show();
+				}
+			}
+			else {
+				Toast.makeText(this, "Wrong Old Pin", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 

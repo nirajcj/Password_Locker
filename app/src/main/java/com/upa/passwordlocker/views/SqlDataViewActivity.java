@@ -196,8 +196,7 @@ public class SqlDataViewActivity extends Activity{
 
 									createData();
 								}
-								catch (Exception e) {
-								}
+								catch (Exception e) {}
 								adapter.notifyDataSetChanged();
 							}
 						}
@@ -232,20 +231,18 @@ public class SqlDataViewActivity extends Activity{
 
 
 	public void createData() {
-
 		try {
 
 			int k = 0;
 			groups.clear();
 
 			CustomDbHelper info = new CustomDbHelper(this);
-
 			info.open();
 			String data = info.getData();
 			info.close();
 
-			String username_decr;
-			String password_decr;
+			String username_decrypted;
+			String password_decrypted;
 
 			String[] arr = data.split("\n");
 
@@ -255,11 +252,11 @@ public class SqlDataViewActivity extends Activity{
 
 				try {
 
-					username_decr = AESHelper.decrypt(arr[j + 1]);
-					password_decr = AESHelper.decrypt(arr[j + 2]);
+					username_decrypted = AESHelper.decrypt(arr[j + 1]);
+					password_decrypted = AESHelper.decrypt(arr[j + 2]);
 
-					group.children.add("Username - " + username_decr);
-					group.children.add("Password - " + password_decr);
+					group.children.add("Username - " + username_decrypted);
+					group.children.add("Password - " + password_decrypted);
 
 					groups.append(k++, group);
 				}
@@ -267,7 +264,6 @@ public class SqlDataViewActivity extends Activity{
 			}
 		}
 		catch (SQLException e) {}
-
 	}
 
 	private boolean customStartActivity(Intent aIntent) {

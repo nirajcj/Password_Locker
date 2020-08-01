@@ -17,24 +17,22 @@ public class FileUtils {
         mContext = c;
     }
 
-    public void writeToFile(String data,String FILENAME) {
+    public void writeToFile(String data, String filename) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(mContext.openFileOutput(FILENAME, Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(mContext.openFileOutput(filename, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
         }
-        catch (IOException e) {
-
-        }
+        catch (IOException e) {}
     }
 
-    public String readFromFile(String FILENAME) {
+    public String readFromFile(String filename) {
 
         String ret = "";
 
         try {
 
-            InputStream inputStream = mContext.openFileInput(FILENAME);
+            InputStream inputStream = mContext.openFileInput(filename);
 
             if (inputStream != null) {
 
@@ -51,9 +49,7 @@ public class FileUtils {
                 ret = stringBuilder.toString();
             }
         }
-        catch (IOException e) {
-
-        }
+        catch (IOException e) {}
         return ret;
     }
 

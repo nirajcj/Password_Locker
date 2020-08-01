@@ -20,8 +20,7 @@ public class AboutActivity extends Activity {
 	MaterialTextView textView;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
@@ -128,4 +127,5 @@ public class AboutActivity extends Activity {
 				return super.onOptionsItemSelected(item);
 		}
 	}
+
 }

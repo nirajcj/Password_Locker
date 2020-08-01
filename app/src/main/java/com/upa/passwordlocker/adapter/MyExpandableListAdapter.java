@@ -17,6 +17,7 @@ import com.upa.passwordlocker.models.Group;
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
   private final SparseArray<Group> groups;
+
   private LayoutInflater inflater;
   private Activity activity;
 

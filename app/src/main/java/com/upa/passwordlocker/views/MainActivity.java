@@ -1,11 +1,5 @@
 package com.upa.passwordlocker.views;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.upa.passwordlocker.R;
-import com.upa.passwordlocker.utils.CustomDbHelper;
-import com.upa.passwordlocker.utils.AESHelper;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -15,10 +9,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
+import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
+import com.upa.passwordlocker.R;
+import com.upa.passwordlocker.utils.AESHelper;
+import com.upa.passwordlocker.utils.CustomDbHelper;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -37,11 +37,11 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		isDone = false;
 
-		updateButton = (MaterialButton) findViewById(R.id.button1);
+		updateButton = findViewById(R.id.button1);
 
-		usernameTextInput = (TextInputEditText) findViewById(R.id.editText1);
-		passwordTextInput = (TextInputEditText) findViewById(R.id.editText2);
-		websiteTextInput = (TextInputEditText) findViewById(R.id.editText3);
+		usernameTextInput = findViewById(R.id.editText1);
+		passwordTextInput = findViewById(R.id.editText2);
+		websiteTextInput = findViewById(R.id.editText3);
 
 		updateButton.setOnClickListener(this);
 	}
@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		super.onResume();
 
-		if(isDone){
+		if(isDone) {
 			Intent i=new Intent("com.upa.passwordlocker.PASSWORD_ACTIVITY");
 			startActivity(i);
 			finish();
@@ -74,17 +74,16 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		super.onPause();
 
-		if(!isBackPress)
-			isDone =true;
+		if(!isBackPress) {
+			isDone = true;
+		}
 	}
 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -146,7 +145,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 					if (worked) {
 
-						TextView tv = new TextView(this);
+						MaterialTextView tv = new MaterialTextView(this);
 						tv.setText(R.string.creation_success_string);
 
 						Dialog d = new Dialog(this);
@@ -175,13 +174,11 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private boolean customStartActivity(Intent aIntent) {
-		try
-		{
+		try {
 			startActivity(aIntent);
 			return true;
 		}
-		catch (ActivityNotFoundException e)
-		{
+		catch (ActivityNotFoundException e) {
 			return false;
 		}
 	}

@@ -76,4 +76,5 @@
             android:text="@string/change_string" />
 
     </LinearLayout>
+
 </ScrollView>
