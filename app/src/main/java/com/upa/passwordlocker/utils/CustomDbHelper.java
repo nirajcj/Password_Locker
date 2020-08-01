@@ -64,7 +64,7 @@ public class CustomDbHelper {
 				String[] arr = data.toString().split(" ");
 
 				db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-				db.execSQL("CREATE TABLE "+ TABLE_NAME +" ( "+ KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE +
+				db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE +
 						" TEXT NOT NULL, " + KEY_USERNAME + " TEXT NOT NULL, " + KEY_PASSWORD + " TEXT NOT NULL);"
 				);
 
