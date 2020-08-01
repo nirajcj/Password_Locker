@@ -60,8 +60,9 @@ public class AboutActivity extends Activity {
 
 		super.onPause();
 
-		if(!isBackPress)
-			isDone =true;
+		if(!isBackPress) {
+			isDone = true;
+		}
 	}
 
 	@Override
