@@ -34,7 +34,7 @@ public class CustomDbHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("CREATE TABLE "+ TABLE_NAME + " ( " + KEY_ROW_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE
+			db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE
 					+ " TEXT NOT NULL, " + KEY_USERNAME+" TEXT NOT NULL, " + KEY_PASSWORD + " TEXT NOT NULL);"
 			);
 
