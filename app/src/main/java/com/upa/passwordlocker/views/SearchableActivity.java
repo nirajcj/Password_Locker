@@ -1,5 +1,6 @@
-package com.upa.passwordlocker;
+package com.upa.passwordlocker.views;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.upa.passwordlocker.R;
 
 import android.app.ActionBar;
@@ -8,21 +9,25 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.TextView;
 
 public class SearchableActivity extends Activity {
 	
-	private TextView txtQuery;
+	private MaterialTextView txtQuery;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_searchable);
+
 		ActionBar actionBar = getActionBar();
 		 
         // Enabling Back navigation on Action Bar icon
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
  
-        txtQuery = (TextView) findViewById(R.id.textView2);
+        txtQuery = (MaterialTextView) findViewById(R.id.textView2);
  
         handleIntent(getIntent());
 	}
@@ -34,13 +39,13 @@ public class SearchableActivity extends Activity {
     }
  
     private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
             String query = intent.getStringExtra(SearchManager.QUERY);
  
-           // Use this query to display search results like 
-
-            txtQuery.setText("" + query);
- 
+           // Use this query to display search results like
+            txtQuery.setText(String.format("%s", query));
         }
  
     }

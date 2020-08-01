@@ -1,6 +1,4 @@
-package com.upa.passwordlocker;
-
-import com.upa.passwordlocker.R;
+package com.upa.passwordlocker.adapter;
 
 import android.app.Activity;
 import android.util.SparseArray;
@@ -10,19 +8,22 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.textview.MaterialTextView;
+import com.upa.passwordlocker.R;
+import com.upa.passwordlocker.models.Group;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
   private final SparseArray<Group> groups;
-  public LayoutInflater inflater;
-  public Activity activity;
+  private LayoutInflater inflater;
+  private Activity activity;
 
   public MyExpandableListAdapter(Activity act, SparseArray<Group> groups) {
-    activity = act;
+    this.activity = act;
     this.groups = groups;
-    inflater = act.getLayoutInflater();
+    this.inflater = act.getLayoutInflater();
   }
 
   @Override
@@ -36,20 +37,24 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
   }
 
   @Override
-  public View getChildView(int groupPosition, final int childPosition,
-      boolean isLastChild, View convertView, ViewGroup parent) {
+  public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+
     final String children = (String) getChild(groupPosition, childPosition);
-    TextView text = null;
+
+    MaterialTextView text;
+
     if (convertView == null) {
       convertView = inflater.inflate(R.layout.listrow_details, null);
     }
-    text = (TextView) convertView.findViewById(R.id.textView7);
+
+    text = (MaterialTextView) convertView.findViewById(R.id.textView7);
     text.setText(children);
+
     convertView.setOnClickListener(new OnClickListener() {
+
       @Override
       public void onClick(View v) {
-        Toast.makeText(activity, children,
-            Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, children, Toast.LENGTH_SHORT).show();
       }
     });
     return convertView;
@@ -86,14 +91,17 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
   }
 
   @Override
-  public View getGroupView(int groupPosition, boolean isExpanded,
-      View convertView, ViewGroup parent) {
+  public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+
     if (convertView == null) {
       convertView = inflater.inflate(R.layout.listrow_group, null);
     }
+
     Group group = (Group) getGroup(groupPosition);
+
     ((CheckedTextView) convertView).setText(group.string);
     ((CheckedTextView) convertView).setChecked(isExpanded);
+
     return convertView;
   }
 
@@ -106,4 +114,5 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
   public boolean isChildSelectable(int groupPosition, int childPosition) {
     return false;
   }
-} 
+
+}
