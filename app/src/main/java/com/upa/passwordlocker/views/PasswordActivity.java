@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -24,11 +25,16 @@ import com.upa.passwordlocker.R;
 import com.upa.passwordlocker.utils.EncryptionHelper;
 import com.upa.passwordlocker.utils.FileUtils;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Random;
 
 
 public class PasswordActivity extends Activity implements OnClickListener {
+
+	private static final String TAG = PasswordActivity.class.getName();
 
 	public static final String PREFS_NAME = "app_pref";
 	public static final String pass = "password";
@@ -50,7 +56,7 @@ public class PasswordActivity extends Activity implements OnClickListener {
 		fileUtils.writeToFile("123", "timestamp");
 
 		Typeface heading = Typeface.createFromAsset(getAssets(), "fonts/yoyo.otf");
-		Typeface allages = Typeface.createFromAsset(getAssets(), "fonts/babylove.ttf");
+		Typeface all_ages = Typeface.createFromAsset(getAssets(), "fonts/babylove.ttf");
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		storedPass = settings.getString("password", null); //  password stored
@@ -92,23 +98,24 @@ public class PasswordActivity extends Activity implements OnClickListener {
 		button12.setOnClickListener(this);
 		button13.setOnClickListener(this);
 
-		button1.setTypeface(allages);
-		button2.setTypeface(allages);
-		button3.setTypeface(allages);
-		button4.setTypeface(allages);
-		button5.setTypeface(allages);
-		button6.setTypeface(allages);
-		button7.setTypeface(allages);
-		button8.setTypeface(allages);
-		button9.setTypeface(allages);
-		button10.setTypeface(allages);
-		button11.setTypeface(allages);
-		button12.setTypeface(allages);
+		button1.setTypeface(all_ages);
+		button2.setTypeface(all_ages);
+		button3.setTypeface(all_ages);
+		button4.setTypeface(all_ages);
+		button5.setTypeface(all_ages);
+		button6.setTypeface(all_ages);
+		button7.setTypeface(all_ages);
+		button8.setTypeface(all_ages);
+		button9.setTypeface(all_ages);
+		button10.setTypeface(all_ages);
+		button11.setTypeface(all_ages);
+		button12.setTypeface(all_ages);
 
 		MaterialTextView myTextView = (MaterialTextView)findViewById(R.id.textView1);
 		myTextView.setTypeface(heading);
 	}
 
+	@SuppressLint("DefaultLocale")
 	@Override
 	public void onClick(View v) {
 
@@ -189,10 +196,10 @@ public class PasswordActivity extends Activity implements OnClickListener {
 
 				try {
 
-					String waitstate= fileUtils.readFromFile("waitstate");
+					String waitState= fileUtils.readFromFile("waitstate");
 					java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm:ss");
 					Time now = new Time();
-					if(waitstate.equalsIgnoreCase("wait")) {
+					if(waitState.equalsIgnoreCase("wait")) {
 
 						now.setToNow();
 
@@ -235,7 +242,9 @@ public class PasswordActivity extends Activity implements OnClickListener {
 						try {
 							matched = EncryptionHelper.validatePassword(s, storedPass);
 						}
-						catch(Exception e){}
+						catch(NoSuchAlgorithmException | InvalidKeySpecException e){
+							Log.e(TAG, "Error validating password", e.getCause());
+						}
 
 						if(matched) {
 
@@ -266,7 +275,9 @@ public class PasswordActivity extends Activity implements OnClickListener {
 						}
 					}
 				}
-				catch(Exception e){}
+				catch(ParseException | NoSuchAlgorithmException | InvalidKeySpecException e){
+					Log.e(TAG, "Error validating password", e.getCause());
+				}
 				break;
 
 			case R.id.button13:
@@ -291,6 +302,7 @@ public class PasswordActivity extends Activity implements OnClickListener {
 								s = answerTextInput.getText().toString();
 
 								try {
+
 									if(EncryptionHelper.validatePassword(s, value)) {
 
 										Random rnd = new Random();
@@ -320,7 +332,9 @@ public class PasswordActivity extends Activity implements OnClickListener {
 										pinInput.setText(s);
 									}
 								}
-								catch(Exception e){}
+								catch(NoSuchAlgorithmException | InvalidKeySpecException e){
+									Log.e(TAG, "Error validating password", e.getCause());
+								}
 							}
 						});
 

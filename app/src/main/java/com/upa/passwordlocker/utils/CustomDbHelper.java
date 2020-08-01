@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class CustomDbHelper {
+
+	private static final String TAG = CustomDbHelper.class.getName();
 
 	public static final String DBNAME = "dataofstudent";
 
@@ -35,7 +38,7 @@ public class CustomDbHelper {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_WEBSITE
-					+ " TEXT NOT NULL, " + KEY_USERNAME+" TEXT NOT NULL, " + KEY_PASSWORD + " TEXT NOT NULL);"
+					+ " TEXT NOT NULL, " + KEY_USERNAME + " TEXT NOT NULL, " + KEY_PASSWORD + " TEXT NOT NULL);"
 			);
 
 		}
@@ -75,7 +78,7 @@ public class CustomDbHelper {
 						arr[j + 2]=AESHelper.encrypt(arr[j + 2]);
 					}
 					catch (Exception e) {
-
+						Log.e(TAG, "Error encrypting data");
 					}
 
 					ContentValues cv=new ContentValues();
@@ -127,7 +130,7 @@ public class CustomDbHelper {
 		refreshTable();
 	}
 
-	public void editTable(int pos, String website,String username,String password) {
+	public void editTable(int pos, String website, String username, String password) {
 
 		String whereClause = "_id" + "=?";
 		String[] whereArgs = new String[] {String.valueOf(pos)};

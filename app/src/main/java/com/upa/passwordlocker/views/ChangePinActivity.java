@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.upa.passwordlocker.R;
 import com.upa.passwordlocker.utils.EncryptionHelper;
 
 public class ChangePinActivity extends Activity implements OnClickListener{
+
+	private static final String TAG = ChangePinActivity.class.getName();
 
 	private static final String PREFS_NAME = "app_pref";
 	private static final String pass = "password";
@@ -100,7 +103,9 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 			try {
 				matched = EncryptionHelper.validatePassword(currentPinInput, currentPin);
 			}
-			catch (Exception e) {}
+			catch (Exception e) {
+				Log.e(TAG, "Error validating password", e.getCause());
+			}
 
 			if (matched) {
 
@@ -110,7 +115,9 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 					try {
 						hashedNewPin = EncryptionHelper.generateStrongPasswordHash(changePinInput);
 					}
-					catch (Exception e) {}
+					catch (Exception e) {
+						Log.e(TAG, "Error generating password", e.getCause());
+					}
 
 					SharedPreferences.Editor editor;
 					settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);

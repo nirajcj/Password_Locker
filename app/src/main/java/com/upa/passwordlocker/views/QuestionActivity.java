@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -20,6 +21,8 @@ import com.upa.passwordlocker.utils.EncryptionHelper;
 import com.upa.passwordlocker.R;
 
 public class QuestionActivity extends Activity implements OnClickListener {
+
+	private static final String TAG = QuestionActivity.class.getName();
 
 	private static final String PREFS_NAME = "app_pref";
 	private static final String PREFS_NAME1 = "MyPrefsFile";
@@ -155,7 +158,9 @@ public class QuestionActivity extends Activity implements OnClickListener {
 							editor.putString(pass1, s_hashed);
 							editor.apply();
 						}
-						catch(Exception e) {}
+						catch(Exception e) {
+							Log.e(TAG, "Error generating password", e.getCause());
+						}
 
 						requestPass();
 

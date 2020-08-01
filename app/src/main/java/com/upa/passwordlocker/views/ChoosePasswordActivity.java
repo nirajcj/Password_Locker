@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -18,7 +20,12 @@ import com.google.android.material.textview.MaterialTextView;
 import com.upa.passwordlocker.utils.EncryptionHelper;
 import com.upa.passwordlocker.R;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 public class ChoosePasswordActivity extends Activity implements OnClickListener {
+
+	private static final String TAG = ChoosePasswordActivity.class.getName();
 
 	private static final String PREFS_NAME = "app_pref";
 	private static final String pass = "password";
@@ -52,7 +59,9 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 					editor.putString("version", versionName);
 					editor.apply();
 				}
-				catch (Exception e) {}
+				catch (PackageManager.NameNotFoundException e) {
+					Log.e(TAG, "Error in getting package", e.getCause());
+				}
 			}
 
 			SharedPreferences.Editor editor = prefs.edit();
@@ -75,7 +84,9 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 				editor.commit();
 
 			}
-			catch (Exception e) {}
+			catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+				Log.e(TAG, "Error in generating password", e.getCause());
+			}
 		}
 
 		requestPass();
@@ -83,7 +94,7 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 		super.onCreate(savedInstanceState);
 
 		Typeface heading = Typeface.createFromAsset(getAssets(), "fonts/yoyo.otf");
-		Typeface allages = Typeface.createFromAsset(getAssets(), "fonts/babylove.ttf");
+		Typeface all_ages = Typeface.createFromAsset(getAssets(), "fonts/babylove.ttf");
 
 		setContentView(R.layout.activity_password_choose);
 
@@ -120,18 +131,18 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 		MaterialTextView myTextView = findViewById(R.id.textView1);
 		myTextView.setTypeface(heading);
 
-		button1.setTypeface(allages);
-		button2.setTypeface(allages);
-		button3.setTypeface(allages);
-		button4.setTypeface(allages);
-		button5.setTypeface(allages);
-		button6.setTypeface(allages);
-		button7.setTypeface(allages);
-		button8.setTypeface(allages);
-		button9.setTypeface(allages);
-		button11.setTypeface(allages);
-		button10.setTypeface(allages);
-		button12.setTypeface(allages);
+		button1.setTypeface(all_ages);
+		button2.setTypeface(all_ages);
+		button3.setTypeface(all_ages);
+		button4.setTypeface(all_ages);
+		button5.setTypeface(all_ages);
+		button6.setTypeface(all_ages);
+		button7.setTypeface(all_ages);
+		button8.setTypeface(all_ages);
+		button9.setTypeface(all_ages);
+		button11.setTypeface(all_ages);
+		button10.setTypeface(all_ages);
+		button12.setTypeface(all_ages);
 	}
 
 	private void requestPass() {
@@ -248,7 +259,9 @@ public class ChoosePasswordActivity extends Activity implements OnClickListener 
 					editor.putString(pass, s_hashed);
 					editor.apply();
 				}
-				catch(Exception e) {}
+				catch(NoSuchAlgorithmException | InvalidKeySpecException e) {
+					Log.e(TAG, "Error in generating password", e.getCause());
+				}
 
 				requestPass2();
 

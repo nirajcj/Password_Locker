@@ -22,10 +22,10 @@ import com.upa.passwordlocker.utils.CustomDbHelper;
 
 public class MainActivity extends Activity implements OnClickListener {
 
+	private boolean isDone, isBackPress;
+
 	MaterialButton updateButton;
 	TextInputEditText websiteTextInput, usernameTextInput, passwordTextInput;
-
-	private boolean isDone, isBackPress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

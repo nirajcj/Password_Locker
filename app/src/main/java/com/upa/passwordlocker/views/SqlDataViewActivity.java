@@ -17,6 +17,7 @@ import android.database.SQLException;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -29,7 +30,16 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SqlDataViewActivity extends Activity{
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+public class SqlDataViewActivity extends Activity {
+
+	private static final String TAG = SqlDataViewActivity.class.getName();
 
 	private boolean isDone;
 	private boolean isBackPress;
@@ -187,16 +197,18 @@ public class SqlDataViewActivity extends Activity{
 
 								try {
 
-									String s2_encr = AESHelper.encrypt(s2);
-									String s3_encr = AESHelper.encrypt(s3);
+									String s2_encrypted = AESHelper.encrypt(s2);
+									String s3_encrypted = AESHelper.encrypt(s3);
 
 									entry.open();
-									entry.editTable(pos+1,s1,s2_encr,s3_encr);
+									entry.editTable(pos + 1, s1, s2_encrypted, s3_encrypted);
 									entry.close();
 
 									createData();
 								}
-								catch (Exception e) {}
+								catch (NoSuchAlgorithmException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
+									Log.e(TAG, "Error encrypting data", e.getCause());
+								}
 								adapter.notifyDataSetChanged();
 							}
 						}
@@ -231,40 +243,40 @@ public class SqlDataViewActivity extends Activity{
 
 
 	public void createData() {
-		try {
 
-			int k = 0;
-			groups.clear();
+		int k = 0;
+		groups.clear();
 
-			CustomDbHelper info = new CustomDbHelper(this);
-			info.open();
-			String data = info.getData();
-			info.close();
+		CustomDbHelper info = new CustomDbHelper(this);
+		info.open();
+		String data = info.getData();
+		info.close();
 
-			String username_decrypted;
-			String password_decrypted;
+		String username_decrypted;
+		String password_decrypted;
 
-			String[] arr = data.split("\n");
+		String[] arr = data.split("\n");
 
-			for (int j = 0; j < arr.length; j = j + 3) {
+		for (int j = 0; j < arr.length; j = j + 3) {
 
-				Group group = new Group(arr[j]);
+			Group group = new Group(arr[j]);
 
-				try {
+			try {
 
-					username_decrypted = AESHelper.decrypt(arr[j + 1]);
-					password_decrypted = AESHelper.decrypt(arr[j + 2]);
+				username_decrypted = AESHelper.decrypt(arr[j + 1]);
+				password_decrypted = AESHelper.decrypt(arr[j + 2]);
 
-					group.children.add("Username - " + username_decrypted);
-					group.children.add("Password - " + password_decrypted);
+				group.children.add("Username - " + username_decrypted);
+				group.children.add("Password - " + password_decrypted);
 
-					groups.append(k++, group);
-				}
-				catch (Exception e) {}
+				groups.append(k++, group);
+			}
+			catch (NoSuchAlgorithmException | IllegalBlockSizeException | InvalidKeyException | BadPaddingException | NoSuchPaddingException e) {
+				Log.e(TAG, "Error decrypting data", e.getCause());
 			}
 		}
-		catch (SQLException e) {}
 	}
+
 
 	private boolean customStartActivity(Intent aIntent) {
 		try {

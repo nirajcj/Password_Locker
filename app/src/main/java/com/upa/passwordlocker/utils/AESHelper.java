@@ -2,10 +2,15 @@ package com.upa.passwordlocker.utils;
 
 import com.upa.passwordlocker.crypto.CryptoProvider;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -15,7 +20,7 @@ public class AESHelper {
     private static final String HEX = "0123456789ABCDEF";
     private static final String CIPHER_ALGORITHM = "AES";
 
-    public static String encrypt(String cleartext) throws Exception {
+    public static String encrypt(String cleartext) throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException {
 
         byte[] rawKey = getRawKey(SEED.getBytes());
         byte[] result = encrypt(rawKey, cleartext.getBytes());
@@ -23,7 +28,7 @@ public class AESHelper {
         return toHex(result);
     }
 
-    public static String decrypt(String encrypted) throws Exception {
+    public static String decrypt(String encrypted) throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException {
 
         byte[] rawKey = getRawKey(SEED.getBytes());
 
@@ -33,7 +38,7 @@ public class AESHelper {
         return new String(result);
     }
 
-    private static byte[] getRawKey(byte[] seed) throws Exception {
+    private static byte[] getRawKey(byte[] seed) throws NoSuchAlgorithmException {
 
         SecureRandom sr = SecureRandom.getInstance(EncryptionHelper.SALT_ALGORITHM, new CryptoProvider());
         sr.setSeed(seed);
@@ -46,7 +51,7 @@ public class AESHelper {
     }
 
 
-    private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
+    private static byte[] encrypt(byte[] raw, byte[] clear) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
         SecretKeySpec secretKeySpec = new SecretKeySpec(raw, CIPHER_ALGORITHM);
 
@@ -56,7 +61,7 @@ public class AESHelper {
         return cipher.doFinal(clear);
     }
 
-    private static byte[] decrypt(byte[] raw, byte[] encrypted) throws Exception {
+    private static byte[] decrypt(byte[] raw, byte[] encrypted) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
         SecretKeySpec secretKeySpec = new SecretKeySpec(raw, CIPHER_ALGORITHM);
 
