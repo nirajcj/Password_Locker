@@ -102,21 +102,24 @@ public class AboutActivity extends Activity {
 
 				//Try Google play
 				intent.setData(Uri.parse("market://details?id="+ AboutActivity.this.getPackageName()));
-				if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
-
-					//Market (Google play) app seems not installed, let's try to open a webbrowser
-					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ AboutActivity.this.getPackageName()));
-					if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
-
-						//Well if this also fails, we have run out of options, inform the user.
-						Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
-					}
+				if (CommonUtils.startActivity(getApplicationContext(), intent)) {
+					finish();
+					return true;
 				}
-				finish();
 
-			default:
-				return super.onOptionsItemSelected(item);
+				//Market (Google play) app seems not installed, let's try to open a webbrowser
+				intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ AboutActivity.this.getPackageName()));
+				if (CommonUtils.startActivity(getApplicationContext(), intent)) {
+					finish();
+					return true;
+				}
+
+				//Well if this also fails, we have run out of options, inform the user.
+				Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
 		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 }
+

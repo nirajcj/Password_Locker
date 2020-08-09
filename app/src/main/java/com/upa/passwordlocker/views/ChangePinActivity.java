@@ -22,7 +22,7 @@ import com.upa.passwordlocker.utils.EncryptionHelper;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-public class ChangePinActivity extends Activity implements OnClickListener{
+public class ChangePinActivity extends Activity implements OnClickListener {
 
 	private static final String TAG = ChangePinActivity.class.getName();
 
@@ -169,23 +169,25 @@ public class ChangePinActivity extends Activity implements OnClickListener{
 
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 
-				// Try Google play
-				intent.setData(Uri.parse("market://details?id=" + ChangePinActivity.this.getPackageName()));
-				if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
-
-					// Market (Google play) app seems not installed, let's try to open a webbrowser
-					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + ChangePinActivity.this.getPackageName()));
-					if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
-
-						// Well if this also fails, we have run out of options, inform the user.
-						Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
-					}
+				//Try Google play
+				intent.setData(Uri.parse("market://details?id="+ ChangePinActivity.this.getPackageName()));
+				if (CommonUtils.startActivity(getApplicationContext(), intent)) {
+					finish();
+					return true;
 				}
-				finish();
 
-			default:
-				return super.onOptionsItemSelected(item);
+				//Market (Google play) app seems not installed, let's try to open a webbrowser
+				intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ ChangePinActivity.this.getPackageName()));
+				if (CommonUtils.startActivity(getApplicationContext(), intent)) {
+					finish();
+					return true;
+				}
+
+				//Well if this also fails, we have run out of options, inform the user.
+				Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
 		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 }

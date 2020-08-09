@@ -246,10 +246,11 @@ public class SqlDataViewActivity extends Activity {
 		int k = 0;
 		groups.clear();
 
-		CustomDbHelper info = new CustomDbHelper(this);
-		info.open();
-		String data = info.getData();
-		info.close();
+		CustomDbHelper customDbHelper = new CustomDbHelper(this);
+
+		customDbHelper.open();
+		String data = customDbHelper.getData();
+		customDbHelper.close();
 
 		String username_decrypted;
 		String password_decrypted;
@@ -311,23 +312,26 @@ public class SqlDataViewActivity extends Activity {
 
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 
-				// Try Google play
+				//Try Google play
 				intent.setData(Uri.parse("market://details?id="+ SqlDataViewActivity.this.getPackageName()));
-				if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
-
-					// Market (Google play) app seems not installed, let's try to open a web browser
-					intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ SqlDataViewActivity.this.getPackageName()));
-					if (CommonUtils.hasActivityNotStarted(getApplicationContext(), intent)) {
-
-						// Well if this also fails, we have run out of options, inform the user.
-						Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
-					}
+				if (CommonUtils.startActivity(getApplicationContext(), intent)) {
+					finish();
+					return true;
 				}
-				finish();
 
-			default:
-				return super.onOptionsItemSelected(item);
+				//Market (Google play) app seems not installed, let's try to open a webbrowser
+				intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+ SqlDataViewActivity.this.getPackageName()));
+				if (CommonUtils.startActivity(getApplicationContext(), intent)) {
+					finish();
+					return true;
+				}
+
+				//Well if this also fails, we have run out of options, inform the user.
+				Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
 		}
+
+		return super.onOptionsItemSelected(item);
+
 	}
 
 }

@@ -78,7 +78,7 @@ public class CustomDbHelper {
 						arr[j + 2]=AESHelper.encrypt(arr[j + 2]);
 					}
 					catch (Exception e) {
-						Log.e(TAG, "Error encrypting data");
+						Log.e(TAG, "Error encrypting data", e.getCause());
 					}
 
 					ContentValues cv=new ContentValues();

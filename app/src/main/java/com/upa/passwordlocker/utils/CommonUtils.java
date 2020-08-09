@@ -15,13 +15,13 @@ public class CommonUtils {
         return data.contains(" ");
     }
 
-    public static boolean hasActivityNotStarted(Context context, Intent intent) {
+    public static boolean startActivity(Context context, Intent intent) {
         try {
             context.startActivity(intent);
-            return false;
+            return true;
         }
         catch (ActivityNotFoundException e) {
-            return true;
+            return false;
         }
     }
 
