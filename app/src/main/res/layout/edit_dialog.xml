@@ -1,0 +1,46 @@
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <TableRow>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText1"
+            android:layout_width="195dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="@string/website_string"
+            android:layout_marginStart="20dp" />
+
+    </TableRow>
+
+    <TableRow>
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText2"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="@string/username_string"
+            android:layout_marginStart="20dp" />
+
+    </TableRow>
+    <TableRow>
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText3"
+            android:layout_width="195dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="@string/password_string"
+            android:inputType="text"
+            android:layout_marginStart="20dp" />
+
+
+    </TableRow>
+</TableLayout>

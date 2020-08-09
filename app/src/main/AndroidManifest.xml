@@ -9,9 +9,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/android:Theme.Holo" >
+        android:theme="@style/Theme.MaterialComponents" >
         <activity
-            android:name="com.upa.passwordlocker.password_activity_choose"
+            android:name="com.upa.passwordlocker.views.ChoosePasswordActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.upa.passwordlocker.password_activity"
+            android:name="com.upa.passwordlocker.views.PasswordActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -31,7 +31,7 @@
 
         <!-- Main Activity -->
         <activity
-            android:name="com.upa.passwordlocker.MainActivity"
+            android:name="com.upa.passwordlocker.views.MainActivity"
             android:label="New Entry" >
             <intent-filter>
                 <action android:name="com.upa.passwordlocker.MAIN_ACTIVITY" />
@@ -41,7 +41,7 @@
 
         <!-- View the whole Database -->
         <activity
-            android:name="com.upa.passwordlocker.sqlView"
+            android:name="com.upa.passwordlocker.views.SqlDataViewActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.upa.passwordlocker.SQLVIEW" />
@@ -50,7 +50,7 @@
         </activity>
 
         <activity
-            android:name="com.upa.passwordlocker.ChangePinActivity"
+            android:name="com.upa.passwordlocker.views.ChangePinActivity"
             android:label="Change Pin" >
             <intent-filter>
                 <action android:name="com.upa.passwordlocker.CHANGEPINACTIVITY" />
@@ -60,7 +60,7 @@
         
         
         <activity
-            android:name="com.upa.passwordlocker.question_activity"
+            android:name="com.upa.passwordlocker.views.QuestionActivity"
             android:label="@string/title_question_activity"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -69,7 +69,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.upa.passwordlocker.about"
+            android:name="com.upa.passwordlocker.views.AboutActivity"
             android:label="@string/title_about_activity" >
             <intent-filter>
                 <action android:name="com.upa.passwordlocker.ABOUT" />

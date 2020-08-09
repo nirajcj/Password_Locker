@@ -17,5 +17,33 @@
     <string name="title_activity_change_pin">ChangePinActivity</string>
     <string name="title_question_activity">Choose_Security_Question</string>
     <string name="title_about_activity">About The App</string>
+    <string name="update_string">Update</string>
+    <string name="old_pin_string">Old Pin</string>
+    <string name="new_pin_string">New Pin</string>
+    <string name="change_string">Change</string>
+    <string name="re_enter_new_pin_string">Re-Enter New Pin</string>
+    <string name="enter_your_pin_string">Enter Your PIN</string>
+    <string name="no_entries_string">No Entries</string>
+    <string name="answer_string">Answer</string>
+    <string name="test_string">Test</string>
+    <string name="website_string">Website</string>
+    <string name="username_string">Username</string>
+    <string name="password_string">Password</string>
+    <string name="forgot_password_string">Forgot Password</string>
+    <string name="choose_your_pin_string">Choose Your PIN</string>
+    <string name="ok_string">OK</string>
+    <string name="back_symbol_string"><![CDATA[<---]]></string>
+    <string name="security_question_string">Security Question</string>
+    <string name="question_1_string">Which is your favourite movie?</string>
+    <string name="question_2_string">What is your pet\'s name?</string>
+    <string name="question_3_string">What is the name of your first school?</string>
+    <string name="question_4_string">Who is your crush?</string>
+    <string name="question_5_string">What is your birth place?</string>
+    <string name="about_us_string">Are you fretted over forgetting your access data for various websites, applications, etc?</string>
+    <string name="creation_success_string">Entry Created Successfully</string>
+    <string name="add_entry_string">Add Entry</string>
+    <string name="change_pin_string">Change PIN</string>
+    <string name="about_string">About</string>
+    <string name="rate_string">Rate</string>
 
 </resources>
